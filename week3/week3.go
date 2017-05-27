@@ -32,22 +32,26 @@ func doPivot(data sort.Interface, lo, hi int, pivotChoosing func(data sort.Inter
 	return i - 1
 }
 
+// QuickSort sort data using given pivotChoosing function
 func QuickSort(data sort.Interface, pivotChoosing func(data sort.Interface, lo, hi int) int) {
 	quickSort(data, 0, data.Len(), pivotChoosing)
 }
 
+// QuickSortFirstPivot sort data using first element as pivot
 func QuickSortFirstPivot(data sort.Interface) {
 	QuickSort(data, func(data sort.Interface, lo, hi int) int {
 		return lo
 	})
 }
 
+// QuickSortLastPivot sort data using last element as pivot
 func QuickSortLastPivot(data sort.Interface) {
 	QuickSort(data, func(data sort.Interface, lo, hi int) int {
 		return hi - 1
 	})
 }
 
+// QuickSortRandomPivot sort data using random element as pivot
 func QuickSortRandomPivot(data sort.Interface) {
 	QuickSort(data, func(data sort.Interface, lo, hi int) int {
 		return rand.Intn(hi - lo) + lo
@@ -69,6 +73,7 @@ func medianOfThree(data sort.Interface, m1, m0, m2 int) {
 	}
 }
 
+// QuickSortMedianOfThreePivot sort data using median of three as pivot
 func QuickSortMedianOfThreePivot(data sort.Interface) {
 	QuickSort(data, func(data sort.Interface, lo, hi int) int {
 		m := lo + (hi - 1 - lo) / 2
