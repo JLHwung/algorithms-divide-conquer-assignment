@@ -56,6 +56,6 @@ func importGraph(path string) *graph {
 }
 func ExampleKargerMinCut_Large() {
 	g := importGraph("kargerMinCut.txt")
-	fmt.Println(KargerMinCut(g, 1000))
+	fmt.Println(KargerMinCut(g, 200))
 	// Output: 34
 }

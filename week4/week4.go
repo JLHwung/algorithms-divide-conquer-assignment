@@ -16,20 +16,25 @@ type edge struct {
 	end int
 }
 
+// NewGraph create a graph and returns reference to the created graph
 func NewGraph() *graph {
 	VertexNumber := 0
 	Edges := make([]edge, 0)
 	return &graph{VertexNumber, Edges}
 }
+
+// AddEdge will add an edge starting with start and ending with end
 func (g *graph) AddEdge (start, end int) {
 	newEdge := edge{start, end}
 	g.Edges = append(g.Edges, newEdge)
 }
 
+// AddVertex simply bump the vertexNumber of a graph
 func (g *graph) AddVertex() {
 	g.VertexNumber++
 }
 
+// CloneGraph does a deep copy of the graph
 func (g *graph) CloneGraph() *graph {
 	VertexNumber := g.VertexNumber
 	Edges := make([]edge, len(g.Edges))
@@ -40,6 +45,8 @@ func (g *graph) CloneGraph() *graph {
 	}
 }
 
+// ContractEdge implements Karger's Contraction. It will contract the edge with index i, remove the endpoint of edge(i)
+// and rewrite all the edges related to the endpoint of edge(i)
 func (g *graph) ContractEdge(i int) {
 	e := g.Edges[i]
 
@@ -72,6 +79,8 @@ func (g *graph) ContractEdge(i int) {
 	g.VertexNumber--
 }
 
+// KargerMinCut implements Krager's Contraction with repeatTime as repeating Time. The repeatTime should follow the O()
+// inequality of the vertex number n: repeatTime = O(n^2 log n)
 func KargerMinCut(g *graph, repeatTime int) int {
 	vertexNumber := g.VertexNumber;
 	if vertexNumber <= 2 {
@@ -85,7 +94,7 @@ func KargerMinCut(g *graph, repeatTime int) int {
 	for i := 0; i < repeatTime; i++ {
 		go func(g *graph) {
 			newGraph := g.CloneGraph()
-			trialResult := KargerMinCutSingleRun(newGraph)
+			trialResult := kargerMinCutSingleRun(newGraph)
 			newGraph = nil
 			ch <- trialResult
 		}(g)
@@ -101,7 +110,7 @@ func KargerMinCut(g *graph, repeatTime int) int {
 	return minTestResult
 }
 
-func KargerMinCutSingleRun(g *graph) int {
+func kargerMinCutSingleRun(g *graph) int {
 	for g.VertexNumber > 2 {
 		r := rand.New(rand.NewSource(time.Now().UTC().UnixNano()))
 		g.ContractEdge(r.Intn(len(g.Edges)))
