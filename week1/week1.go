@@ -70,6 +70,7 @@ func KaratsubaMultiply(x, y, z *big.Int) {
 
 }
 
+// Mul uses built-in Mul method on large numbers, exported for benchmark usage only
 func Mul(x, y, z *big.Int) {
 	z.Mul(x, y)
 }
