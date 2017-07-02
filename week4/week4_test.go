@@ -24,7 +24,7 @@ func ExampleKargerMinCut() {
 	// Output: 3
 }
 
-func importGraph(path string) *graph {
+func importGraph(path string) *Graph {
 	file, err := os.Open(path)
 	if err != nil {
 		panic(err)
